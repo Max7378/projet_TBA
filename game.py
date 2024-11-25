@@ -31,40 +31,67 @@ class Game:
         # Setup rooms
 
 
-        couloir1 = Room("Intersection des couloirs", "Vous êtes dans à l'intersection")
+        couloir1 = Room("à l'intersection des couloirs", "test")
         self.rooms.append(couloir1)
-        couloirdroit1 = Room("Couloir Est du 52ème étage", "Vous êtes dans le couloir Est du 52ème étage.")
+        couloirdroit1 = Room("dans le couloir Est du 52ème étage", "dans le couloir Est du 52ème étage.")
         self.rooms.append(couloirdroit1)
-        couloirbas1 = Room("Couloir Nord du 52ème étage", "Vous êtes dans le couloir Nord du 52ème étage.")
+        couloirbas1 = Room("dans le couloir Nord du 52ème étage", "dans le couloir Nord du 52ème étage.")
         self.rooms.append(couloirbas1)
-        couloirgauche1 = Room("Couloir Ouest du 52ème étage", "Vous êtes dans le couloir Ouest du 52ème étage.")
+        couloirgauche1 = Room("dans le couloir Ouest du 52ème étage", "dans le couloir Ouest du 52ème étage.")
         self.rooms.append(couloirgauche1)
-        couloirhaut1 = Room("Couloir Sud du 52ème étage", "Vous êtes dans le couloir Sud du 52ème étage.")
+        couloirhaut1 = Room("dans le couloir Sud du 52ème étage", "dans le couloir Sud du 52ème étage.")
         self.rooms.append(couloirhaut1)
-        bureau1 = Room("Bureau de gestion", "Stratégies d'entreprise sont décidées ici.")
+        
+        
+        bureau1 = Room("dans le bureau de gestion", "Stratégies d'entreprise sont décidées ici.")
         self.rooms.append(bureau1)
-        bureau2 = Room("Bureau de finance", "L'argent de l'entreprise est géré ici.")
+        bureau2 = Room("dans le bureau de finance", "L'argent de l'entreprise est géré ici.")
         self.rooms.append(bureau2)
-        bureau3 = Room("Bureau de gestion du personnel", "Les RH travaillent ici.")
+        bureau3 = Room("dans le bureau de gestion du personnel", "Les RH travaillent ici.")
         self.rooms.append(bureau3)
-        bureau4 = Room("Bureau de trading", "Les traders travaillent ici.")
+        bureau4 = Room("dans le bureau de trading", "Les traders travaillent ici.")
         self.rooms.append(bureau4)
-        castle = Room("Castle", "dans un énorme château fort avec des douves et un pont levis. Sur les tours, des flèches en or massif.")
-        self.rooms.append(castle)
+
+        
+        bureau5 = Room("dans le placard à balais", "Des balais et des sceaux.")
+        self.rooms.append(bureau5)
+        bureau6 = Room("dans la salle de repos", "Les gens viennent se détendre ici.")
+        self.rooms.append(bureau6)
+        bureau7 = Room("dans le bureau de j'ai pas encore d'idée", "Idée.")
+        self.rooms.append(bureau7)
+        bureau8 = Room("dans la salle des machines", "Tous les serveurs sont entreposés ici.")
+        self.rooms.append(bureau8)
+        
+        
+        couloir2 = Room("à l'intersection des couloirs", "dans à l'intersection 53ème étage")
+        self.rooms.append(couloir2)
+        couloirdroit2 = Room("dans le couloir Est du 53ème étage", "dans le couloir Est du 53ème étage.")
+        self.rooms.append(couloirdroit2)
+        couloirbas2 = Room("dans le couloir Nord du 53ème étage", "dans le couloir Nord du 53ème étage.")
+        self.rooms.append(couloirbas2)
+        couloirgauche2 = Room("dans le couloir Ouest du 53ème étage", "dans le couloir Ouest du 53ème étage.")
+        self.rooms.append(couloirgauche2)
+        couloirhaut2 = Room("dans le couloir Sud du 53ème étage", "dans le couloir Sud du 53ème étage.")
+        self.rooms.append(couloirhaut2)
 
         # Create exits for rooms
 
-        couloir1.exits = {"N" : , "E" : bureau1, "S" : None, "O" : cafe}
-        cafe.exits = {"N" : None, "E" : couloir1, "S" : None, "O" : None}
-        bureau1.exits = {"N" : None, "E" : None, "S" : None, "O" : couloir1}
-        cottage.exits = {"N" : None, "E" : None, "S" : None, "O" : None}
-        swamp.exits = {"N" : None, "E" : None, "S" : None, "O" : castle}
-        castle.exits = {"N" : None, "E" : swamp, "S" : None, "O" : None}
+        couloir1.exits = {"N" : couloirhaut1, "E" : couloirdroit1, "S" : couloirbas1, "O" : couloirgauche1}
+        couloirgauche1.exits = {"N" : bureau1, "E" : couloir1, "S" : bureau3, "O" : couloirgauche2}
+        couloirbas1.exits = {"N" : couloir1, "E" : bureau4, "S" : couloirbas2, "O" : bureau3}
+        couloirdroit1.exits = {"N" : bureau2, "E" : couloirdroit2, "S" : bureau4, "O" : couloir1}
+        couloirhaut1.exits = {"N" : couloirhaut2, "E" : bureau2, "S" : couloir1, "O" : bureau1}
+       
+        couloir2.exits = {"N" : couloirhaut2, "E" : couloirdroit2, "S" : couloirbas2, "O" : couloirgauche2}
+        couloirgauche2.exits = {"N" : bureau5, "E" : couloir2, "S" : bureau7, "O" : couloirgauche1}
+        couloirbas2.exits = {"N" : couloir2, "E" : bureau8, "S" : couloirbas1, "O" : bureau7}
+        couloirdroit2.exits = {"N" : bureau6, "E" : couloirdroit1, "S" : bureau8, "O" : couloir2}
+        couloirhaut2.exits = {"N" : couloirhaut1, "E" : bureau6, "S" : couloir2, "O" : bureau5}
 
         # Setup player and starting room
 
         self.player = Player(input("\nEntrez votre nom: "))
-        self.player.current_room = swamp
+        self.player.current_room = couloirbas1
 
     # Play the game
     def play(self):
