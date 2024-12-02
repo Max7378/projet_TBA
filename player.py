@@ -9,23 +9,23 @@ class Player():
     
     # Define the move method.
     def move(self, direction):
+            # Vérifiez si la direction est valide
         if direction in self.current_room.exits:
             next_room = self.current_room.exits[direction]
+        
+        # Vérifiez si la direction mène à une pièce valide
             if next_room is None:
                 print("\nAucune porte dans cette direction !\n")
                 return False
             else:
+            # Déplacez le joueur dans la pièce suivante
                 self.current_room = next_room
                 print(f"Vous êtes maintenant dans {self.current_room.name}.")
-                return True
         else:
             print(f"Commande de direction non valide : '{direction}'")
             return False
 
-
-
-    # Set the current room to the next room.
-        self.current_room = next_room
+    # Effectuez les actions après le déplacement
         print(self.current_room.get_long_description())
         self.history.append(next_room.name)
         print(self.get_history())
