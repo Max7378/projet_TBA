@@ -1,10 +1,11 @@
+import items
 # Define the Player class.
 class Player():
 
     # Define the constructor.
-    def __init__(self, name, hall, inventory):
+    def __init__(self, name, hall, inventory = None):
         self.name = name
-        self.inventory = {}
+        self.inventory = inventory if inventory is not None else {}
         self.history = []
         self.current_room = hall  
         self.hall = hall
@@ -45,7 +46,11 @@ class Player():
         )
     
     def get_inventory(self):
-        return (
-            "\nVous disposez des items suivants :\n" +
-            "\n".join(f"- {keys.inventory}" for keys in self.inventory)
+
+        if not self.inventory:
+            return "Votre inventaire est vide."
+        
+        return "\n".join(
+            f"- {key} : {item} "
+            for key, item in self.inventory.items()  
         )
