@@ -99,7 +99,7 @@ class Game:
 
         # Setup player and starting room
 
-        self.player = Player(input("\nEntrez votre nom: "), hall, inventory)
+        self.player = Player(input("\nEntrez votre nom: "), hall)
         self.player.current_room = hall
 
     # Play the game
@@ -143,4 +143,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
