@@ -28,55 +28,61 @@ class Game:
         self.commands["go"] = go
         back = Command("back", "revenir en arrière", Actions.back, 0)
         self.commands["back"] = back
-        
+        check = Command("check", "affiche l'inventaire du joueur", Actions.check, 0)
+        self.commands["check"] = check
+        look = Command("look" , "Regarder autour de soi", Actions.look, 0)
+        self.commands["look"] = look
+        take = Command("take", "prend un objet", Actions.take, 1)
+        self.commands["take"] = take
+
         # Setup rooms
 
-        hall=Room("dans le hall d'acceuil", "Prêt à commencer votre job de rêve.")
+        hall=Room("dans le hall d'acceuil", "Prêt à commencer votre job de rêve.", {})
         self.rooms.append(hall)
-        ascenseur=Room("dans l'ascenseur.", "Direction le 52ème étage.")
+        ascenseur=Room("dans l'ascenseur.", "Direction le 52ème étage.", {"clé"  : "test (1kg)"})
         self.rooms.append(ascenseur)
 
-        couloir1 = Room("à l'intersection des couloirs", "")
+        couloir1 = Room("à l'intersection des couloirs", "", {})
         self.rooms.append(couloir1)
-        couloirdroit1 = Room("dans le couloir Est du 52ème étage", "")
+        couloirdroit1 = Room("dans le couloir Est du 52ème étage", "", {})
         self.rooms.append(couloirdroit1)
-        couloirbas1 = Room("dans le couloir Nord du 52ème étage", "")
+        couloirbas1 = Room("dans le couloir Nord du 52ème étage", "", {})
         self.rooms.append(couloirbas1)
-        couloirgauche1 = Room("dans le couloir Ouest du 52ème étage", "")
+        couloirgauche1 = Room("dans le couloir Ouest du 52ème étage", "",{})
         self.rooms.append(couloirgauche1)
-        couloirhaut1 = Room("dans le couloir Sud du 52ème étage", "")
+        couloirhaut1 = Room("dans le couloir Sud du 52ème étage", "",{})
         self.rooms.append(couloirhaut1)
         
         
-        bureau1 = Room("dans le bureau de gestion.", "Les stratégies d'entreprise sont décidées ici.")
+        bureau1 = Room("dans le bureau de gestion.", "Les stratégies d'entreprise sont décidées ici.",{})
         self.rooms.append(bureau1)
-        bureau2 = Room("dans le bureau de finance.", "L'argent de l'entreprise est géré ici.")
+        bureau2 = Room("dans le bureau de finance.", "L'argent de l'entreprise est géré ici.",{})
         self.rooms.append(bureau2)
-        bureau3 = Room("dans le bureau de gestion du personnel.", "Les RH travaillent ici.")
+        bureau3 = Room("dans le bureau de gestion du personnel.", "Les RH travaillent ici.",{})
         self.rooms.append(bureau3)
-        bureau4 = Room("dans le bureau de trading.", "Les traders travaillent ici.")
+        bureau4 = Room("dans le bureau de trading.", "Les traders travaillent ici.",{})
         self.rooms.append(bureau4)
 
         
-        bureau5 = Room("dans le placard à balais", "")
+        bureau5 = Room("dans le placard à balais", "",{})
         self.rooms.append(bureau5)
-        bureau6 = Room("dans la salle de repos.", "Les employés viennent se détendre ici")
+        bureau6 = Room("dans la salle de repos.", "Les employés viennent se détendre ici",{})
         self.rooms.append(bureau6)
-        bureau7 = Room("dans le bureau de j'ai pas encore d'idée", "Idée.")
+        bureau7 = Room("dans le bureau de j'ai pas encore d'idée", "Idée.",{})
         self.rooms.append(bureau7)
-        bureau8 = Room("dans la salle des machines", "Tous les serveurs sont entreposés ici.")
+        bureau8 = Room("dans la salle des machines", "Tous les serveurs sont entreposés ici.",{})
         self.rooms.append(bureau8)
         
         
-        couloir2 = Room("à l'intersection des couloirs", "dans à l'intersection 53ème étage")
+        couloir2 = Room("à l'intersection des couloirs", "dans à l'intersection 53ème étage",{})
         self.rooms.append(couloir2)
-        couloirdroit2 = Room("dans le couloir Est du 53ème étage", "")
+        couloirdroit2 = Room("dans le couloir Est du 53ème étage", "",{})
         self.rooms.append(couloirdroit2)
-        couloirbas2 = Room("dans le couloir Nord du 53ème étage", "")
+        couloirbas2 = Room("dans le couloir Nord du 53ème étage", "",{})
         self.rooms.append(couloirbas2)
-        couloirgauche2 = Room("dans le couloir Ouest du 53ème étage", "")
+        couloirgauche2 = Room("dans le couloir Ouest du 53ème étage", "",{})
         self.rooms.append(couloirgauche2)
-        couloirhaut2 = Room("dans le couloir Sud du 53ème étage", "")
+        couloirhaut2 = Room("dans le couloir Sud du 53ème étage", "",{})
         self.rooms.append(couloirhaut2)
 
         # Create exits for rooms
