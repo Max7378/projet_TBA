@@ -2,14 +2,17 @@
 class Player():
 
     # Define the constructor.
-    def __init__(self, name):
+    def __init__(self, name, hall, inventory):
         self.name = name
+        self.inventory = {}
         self.history = []
-        self.current_room = None
+        self.current_room = hall  
+        self.hall = hall
+        self.last_room = None
     
     # Define the move method.
     def move(self, direction):
-            # Vérifiez si la direction est valide
+    # Vérifiez si la direction est valide
         if direction in self.current_room.exits:
             next_room = self.current_room.exits[direction]
         
@@ -18,6 +21,9 @@ class Player():
                 print("\nAucune porte dans cette direction !\n")
                 return False
             else:
+            # Avant de déplacer le joueur, sauvegarde la salle actuelle dans l'historique
+                self.history.append(self.current_room)
+                self.last_room = self.current_room  # Met à jour la dernière salle avant de changer
             # Déplacez le joueur dans la pièce suivante
                 self.current_room = next_room
                 print(f"Vous êtes maintenant dans {self.current_room.name}.")
@@ -25,15 +31,21 @@ class Player():
             print(f"Commande de direction non valide : '{direction}'")
             return False
 
-    # Effectuez les actions après le déplacement
+    # Affiche la description de la nouvelle salle et ses sorties
         print(self.current_room.get_long_description())
-        self.history.append(next_room.name)
-        print(self.get_history())
+        print("Historique des salles:", self.get_history())
         return True
+
     
     
     def get_history(self):
        return (
             "\nVous avez déjà visité les pièces suivantes :\n" +
-            "\n".join(f"- {room}" for room in self.history)
+            "\n".join(f"- {room.name}" for room in self.history)
+        )
+    
+    def get_inventory(self):
+        return (
+            "\nVous disposez des items suivants :\n" +
+            "\n".join(f"- {keys.inventory}" for keys in self.inventory)
         )
