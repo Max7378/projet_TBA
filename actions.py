@@ -1,5 +1,5 @@
 # Description: The actions module.
-
+import player
 # The actions module contains the functions that are called when a command is executed.
 # Each function takes 3 parameters:
 # - game: the game object
@@ -53,6 +53,15 @@ class Actions:
             print(MSG1.format(command_word=command_word))
             return False
 
+        if list_of_words[1] in ["NORD", "N", "nord", "n", "Nord"]:
+            list_of_words[1] = "N"
+        if list_of_words[1] in ["EST", "E", "est", "e", "Est"]:
+            list_of_words[1] = "E"
+        if list_of_words[1] in ["SUD", "S", "sud", "s", "Sud"]:
+            list_of_words[1] = "S"
+        if list_of_words[1] in ["OUEST", "O", "ouest", "o", "Ouest"]:
+            list_of_words[1] = "O"
+        
         # Get the direction from the list of words.
         direction = list_of_words[1]
         # Move the player in the direction specified by the parameter.
@@ -137,3 +146,85 @@ class Actions:
             print("\t- " + str(command))
         print()
         return True
+    
+
+    def back(game, list_of_words, number_of_parameters):
+        """
+    Permet au joueur de revenir à la salle précédente.
+    
+    Args:
+        game (Game): L'objet du jeu.
+        list_of_words (list): Liste des mots dans la commande.
+        number_of_parameters (int): Le nombre de paramètres attendus par la commande.
+
+    Returns:
+        bool: True si la commande est exécutée avec succès, False sinon.
+    """
+    # Vérifier si l'historique des salles est vide ou contient qu'une seule salle
+        if len(game.player.history) <= 1:  # Si l'historique contient 1 ou moins de salles, le joueur est déjà à son point de départ
+            game.player.current_room = game.player.hall
+            print(game.player.current_room.get_long_description())
+            return False
+    
+    # Vérifier que le nombre de paramètres est correct
+        l = len(list_of_words)
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(f"Usage incorrect de la commande '{command_word}'")
+            return False
+    
+    # Récupérer la salle précédente à partir de l'historique
+        previous_room = game.player.history[-1]  # La deuxième dernière salle dans l'historique
+        print(f"Vous êtes revenu dans : {previous_room.name}.")
+    
+        game.player.current_room = previous_room
+    
+        print(game.player.current_room.get_long_description())
+
+        game.player.history.pop()  # La salle actuelle est en dernière position, donc on la retire
+        return True
+
+    def check(game, list_of_words, number_of_parameters):
+        
+        l = len(list_of_words)
+        # If the number of parameters is incorrect, print an error message and return False.
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+
+        print(game.player.get_inventory())
+
+    
+    def look(game, list_of_words, number_of_parameters):
+        l = len(list_of_words)
+        # If the number of parameters is incorrect, print an error message and return False.
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+        if not game.player.current_room.inventory :
+            print("Il n'y a rien ici")
+        
+        for key, value in game.player.current_room.inventory.items():
+             print(f"{key}: {value}")
+
+
+   
+    def take(game, list_of_words, number_of_parameters):
+        l = len(list_of_words)
+        # If the number of parameters is incorrect, print an error message and return False.
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+        item = list_of_words[1]
+        for key, items in game.player.current_room.inventory.items():
+            if item == key :
+                game.player.inventory[key] = items
+                del game.player.current_room.inventory[key]
+                break
+                
+
