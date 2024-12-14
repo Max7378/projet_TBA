@@ -3,9 +3,9 @@ import items
 class Player():
 
     # Define the constructor.
-    def __init__(self, name, hall, inventory = None):
+    def __init__(self, name, hall, inventory):
         self.name = name
-        self.inventory = inventory if inventory is not None else {}
+        self.inventory = inventory
         self.history = []
         self.current_room = hall  
         self.hall = hall
@@ -27,7 +27,6 @@ class Player():
                 self.last_room = self.current_room  # Met à jour la dernière salle avant de changer
             # Déplacez le joueur dans la pièce suivante
                 self.current_room = next_room
-                print(f"Vous êtes maintenant dans {self.current_room.name}.")
         else:
             print(f"Commande de direction non valide : '{direction}'")
             return False
@@ -47,10 +46,10 @@ class Player():
     
     def get_inventory(self):
 
-        if not self.inventory:
+        if not self.inventory :
             return "Votre inventaire est vide."
         
-        return "\n".join(
-            f"- {key} : {item} "
-            for key, item in self.inventory.items()  
-        )
+        if self.inventory :
+            print("\nVous disposez des items suivants :")
+            for key,item in self.inventory.items() :
+                return(f"    - {str(item)}\n")

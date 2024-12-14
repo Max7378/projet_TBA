@@ -10,3 +10,4 @@ class Item :
 
 dexscreener = Item("DexScreener" , "Application de trading de memecoins" , "0.3")
 sword = Item("sword", "épée" , "2")
+clé = Item("clé", "test", "0.1")

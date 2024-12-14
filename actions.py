@@ -205,11 +205,12 @@ class Actions:
             return False
         
         if not game.player.current_room.inventory :
-            print("Il n'y a rien ici")
-        
-        for key, value in game.player.current_room.inventory.items():
-             print(f"{key}: {value}")
-
+            print("\nIl n'y a rien ici\n")
+            
+        if game.player.current_room.inventory :
+            print("\nLa pièce contient :")
+            for item in game.player.current_room.inventory :
+                print(f"    - {str(item)}\n")
 
    
     def take(game, list_of_words, number_of_parameters):
@@ -221,10 +222,24 @@ class Actions:
             return False
         
         item = list_of_words[1]
-        for key, items in game.player.current_room.inventory.items():
-            if item == key :
-                game.player.inventory[key] = items
-                del game.player.current_room.inventory[key]
+        for key in game.player.current_room.inventory:
+            if item == key.name:  
+                game.player.inventory[key.name] = key 
+                game.player.current_room.inventory.remove(key)  
+                print(f"Vous avez pris {item}.")
                 break
+       
                 
-
+    def drop(game, list_of_words, number_of_parameters):
+        l = len(list_of_words)
+        # If the number of parameters is incorrect, print an error message and return False.
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+        item = list_of_words[1]
+        if item  in game.player.inventory :
+            item_obj = game.player.inventory[item]
+            game.player.current_room.inventory.add(item_obj)
+            del game.player.inventory[item]

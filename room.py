@@ -29,13 +29,13 @@ class Room:
 
     # Return a long description of this room including exits.
     def get_long_description(self):
-        return f"\n Vous êtes {self.name}. {self.description}\n\n{self.get_exit_string()}\n"
+        return f"\n Vous êtes dans {self.name}. {self.description}\n\n{self.get_exit_string()}\n"
 
    
     def get_inventory(self):
 
         if not self.inventory:
-            return "Votre inventaire est vide."
+            return "La pièce est vide"
         
         return "\n".join(
             f"- {key} : {item} "

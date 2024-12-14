@@ -6,6 +6,7 @@ from room import Room
 from player import Player
 from command import Command
 from actions import Actions
+from items import sword, clé
 
 class Game:
 
@@ -20,28 +21,30 @@ class Game:
 
         # Setup commands
 
-        help = Command("help", " : afficher cette aide", Actions.help, 0)
+        help = Command("help", " : Afficher cette aide", Actions.help, 0)
         self.commands["help"] = help
-        quit = Command("quit", " : quitter le jeu", Actions.quit, 0)
+        quit = Command("quit", " : Quitter le jeu", Actions.quit, 0)
         self.commands["quit"] = quit
-        go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O) ou aller de haut en bas (U, D)", Actions.go, 1)
+        go = Command("go", " <direction> : Se déplacer dans une direction cardinale (N, E, S, O) ou aller de haut en bas (U, D)", Actions.go, 1)
         self.commands["go"] = go
-        back = Command("back", "revenir en arrière", Actions.back, 0)
+        back = Command("back", " : Revenir en arrière", Actions.back, 0)
         self.commands["back"] = back
-        check = Command("check", "affiche l'inventaire du joueur", Actions.check, 0)
+        check = Command("check", " : Afficher l'inventaire du joueur", Actions.check, 0)
         self.commands["check"] = check
-        look = Command("look" , "Regarder autour de soi", Actions.look, 0)
+        look = Command("look" , " : Regarder autour de soi", Actions.look, 0)
         self.commands["look"] = look
-        take = Command("take", "prend un objet", Actions.take, 1)
+        take = Command("take", " : Prendre un objet", Actions.take, 1)
         self.commands["take"] = take
+        drop = Command("drop", " : Déposer un objet", Actions.drop, 1)
+        self.commands["drop"] = drop
+        
 
         # Setup rooms
 
-        hall=Room("dans le hall d'acceuil", "Prêt à commencer votre job de rêve.", {})
+        hall=Room("le hall d'acceuil", "Prêt à commencer votre job de rêve.", {})
         self.rooms.append(hall)
-        ascenseur=Room("dans l'ascenseur.", "Direction le 52ème étage.", {"clé"  : "test (1kg)"})
+        ascenseur=Room("l'ascenseur.", "Direction le 52ème étage.", {sword,clé} )
         self.rooms.append(ascenseur)
-
         couloir1 = Room("à l'intersection des couloirs", "", {})
         self.rooms.append(couloir1)
         couloirdroit1 = Room("dans le couloir Est du 52ème étage", "", {})
@@ -105,7 +108,7 @@ class Game:
 
         # Setup player and starting room
 
-        self.player = Player(input("\nEntrez votre nom: "), hall)
+        self.player = Player(input("\nEntrez votre nom: "), hall, {})
         self.player.current_room = hall
 
     # Play the game
