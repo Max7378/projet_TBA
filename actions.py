@@ -204,13 +204,7 @@ class Actions:
             print(MSG0.format(command_word=command_word))
             return False
         
-        if not game.player.current_room.inventory :
-            print("\nIl n'y a rien ici\n")
-            
-        if game.player.current_room.inventory :
-            print("\nLa pièce contient :")
-            for item in game.player.current_room.inventory :
-                print(f"    - {str(item)}\n")
+        print(game.player.current_room.get_inventory())
 
    
     def take(game, list_of_words, number_of_parameters):
@@ -226,8 +220,8 @@ class Actions:
             if item == key.name:  
                 game.player.inventory[key.name] = key 
                 game.player.current_room.inventory.remove(key)  
-                print(f"Vous avez pris {item}.")
-                break
+                print(f"Vous avez pris {key.name}.")
+            break
        
                 
     def drop(game, list_of_words, number_of_parameters):
@@ -243,3 +237,4 @@ class Actions:
             item_obj = game.player.inventory[item]
             game.player.current_room.inventory.add(item_obj)
             del game.player.inventory[item]
+            print(f"Vous avez laché {item}.")

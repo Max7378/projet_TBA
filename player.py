@@ -3,9 +3,9 @@ import items
 class Player():
 
     # Define the constructor.
-    def __init__(self, name, hall, inventory):
+    def __init__(self, name, hall):
         self.name = name
-        self.inventory = inventory
+        self.inventory = {}
         self.history = []
         self.current_room = hall  
         self.hall = hall
@@ -51,5 +51,5 @@ class Player():
         
         if self.inventory :
             print("\nVous disposez des items suivants :")
-            for key,item in self.inventory.items() :
+            for itame_name, item in self.inventory.items() :
                 return(f"    - {str(item)}\n")

@@ -7,6 +7,9 @@ from player import Player
 from command import Command
 from actions import Actions
 from items import sword, clé
+from character import Character
+from items import Item
+
 
 class Game:
 
@@ -41,56 +44,57 @@ class Game:
 
         # Setup rooms
 
-        hall=Room("le hall d'acceuil", "Prêt à commencer votre job de rêve.", {})
+        hall=Room("le hall d'acceuil", "Prêt à commencer votre job de rêve.")
         self.rooms.append(hall)
-        ascenseur=Room("l'ascenseur.", "Direction le 52ème étage.", {sword,clé} )
+        ascenseur=Room("l'ascenseur.", "Direction le 52ème étage.")
         self.rooms.append(ascenseur)
-        couloir1 = Room("à l'intersection des couloirs", "", {})
+        couloir1 = Room("à l'intersection des couloirs", "")
         self.rooms.append(couloir1)
-        couloirdroit1 = Room("dans le couloir Est du 52ème étage", "", {})
+        couloirdroit1 = Room("dans le couloir Est du 52ème étage", "")
         self.rooms.append(couloirdroit1)
-        couloirbas1 = Room("dans le couloir Nord du 52ème étage", "", {})
+        couloirbas1 = Room("dans le couloir Nord du 52ème étage", "")
         self.rooms.append(couloirbas1)
-        couloirgauche1 = Room("dans le couloir Ouest du 52ème étage", "",{})
+        couloirgauche1 = Room("dans le couloir Ouest du 52ème étage", "")
         self.rooms.append(couloirgauche1)
-        couloirhaut1 = Room("dans le couloir Sud du 52ème étage", "",{})
+        couloirhaut1 = Room("dans le couloir Sud du 52ème étage", "")
         self.rooms.append(couloirhaut1)
         
         
-        bureau1 = Room("dans le bureau de gestion.", "Les stratégies d'entreprise sont décidées ici.",{})
+        bureau1 = Room("dans le bureau de gestion.", "Les stratégies d'entreprise sont décidées ici.")
         self.rooms.append(bureau1)
-        bureau2 = Room("dans le bureau de finance.", "L'argent de l'entreprise est géré ici.",{})
+        bureau2 = Room("dans le bureau de finance.", "L'argent de l'entreprise est géré ici.")
         self.rooms.append(bureau2)
-        bureau3 = Room("dans le bureau de gestion du personnel.", "Les RH travaillent ici.",{})
+        bureau3 = Room("dans le bureau de gestion du personnel.", "Les RH travaillent ici.")
         self.rooms.append(bureau3)
-        bureau4 = Room("dans le bureau de trading.", "Les traders travaillent ici.",{})
+        bureau4 = Room("dans le bureau de trading.", "Les traders travaillent ici.")
         self.rooms.append(bureau4)
 
         
-        bureau5 = Room("dans le placard à balais", "",{})
+        bureau5 = Room("dans le placard à balais", "")
         self.rooms.append(bureau5)
-        bureau6 = Room("dans la salle de repos.", "Les employés viennent se détendre ici",{})
+        bureau6 = Room("dans la salle de repos.", "Les employés viennent se détendre ici")
         self.rooms.append(bureau6)
-        bureau7 = Room("dans le bureau de j'ai pas encore d'idée", "Idée.",{})
+        bureau7 = Room("dans le bureau de j'ai pas encore d'idée", "Idée.")
         self.rooms.append(bureau7)
-        bureau8 = Room("dans la salle des machines", "Tous les serveurs sont entreposés ici.",{})
+        bureau8 = Room("dans la salle des machines", "Tous les serveurs sont entreposés ici.")
         self.rooms.append(bureau8)
         
         
-        couloir2 = Room("à l'intersection des couloirs", "dans à l'intersection 53ème étage",{})
+        couloir2 = Room("à l'intersection des couloirs", "dans à l'intersection 53ème étage")
         self.rooms.append(couloir2)
-        couloirdroit2 = Room("dans le couloir Est du 53ème étage", "",{})
+        couloirdroit2 = Room("dans le couloir Est du 53ème étage", "")
         self.rooms.append(couloirdroit2)
-        couloirbas2 = Room("dans le couloir Nord du 53ème étage", "",{})
+        couloirbas2 = Room("dans le couloir Nord du 53ème étage", "")
         self.rooms.append(couloirbas2)
-        couloirgauche2 = Room("dans le couloir Ouest du 53ème étage", "",{})
+        couloirgauche2 = Room("dans le couloir Ouest du 53ème étage", "")
         self.rooms.append(couloirgauche2)
-        couloirhaut2 = Room("dans le couloir Sud du 53ème étage", "",{})
+        couloirhaut2 = Room("dans le couloir Sud du 53ème étage", "")
         self.rooms.append(couloirhaut2)
 
         # Create exits for rooms
 
         hall.exits = {"N" : ascenseur, "E" : None, "S" : None, "O" : None}
+        
         ascenseur.exits = {"N" : couloirbas1, "E" : None, "S" : None, "O" : None}
 
 
@@ -106,9 +110,20 @@ class Game:
         couloirdroit2.exits = {"N" : bureau6, "D" : couloirdroit1, "S" : bureau8, "O" : couloir2}
         couloirhaut2.exits = {"D" : couloirhaut1, "E" : bureau6, "S" : couloir2, "O" : bureau5}
 
+       
+       # Objets
+        ascenseur.inventory.add(Item("clé", "test", "0.2"))
+       
+       
+        # PNJ dans les salles
+
+        ascenseur.character["trader"] = Character("trader", "test", ascenseur, 'Bonjour')
+
+        
+        
         # Setup player and starting room
 
-        self.player = Player(input("\nEntrez votre nom: "), hall, {})
+        self.player = Player(input("\nEntrez votre nom: "), hall)
         self.player.current_room = hall
 
     # Play the game
