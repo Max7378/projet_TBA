@@ -40,7 +40,8 @@ class Game:
         self.commands["take"] = take
         drop = Command("drop", " : Déposer un objet", Actions.drop, 1)
         self.commands["drop"] = drop
-        
+        talk = Command("talk", " : Parler à un PNJ", Actions.talk, 1)
+        self.commands["talk"] = talk
 
         # Setup rooms
 
@@ -147,14 +148,12 @@ class Game:
         if not command_word :
             return
         # If the command is not recognized, print an error message
-        if command_word not in self.commands.keys():
-            print(f"\nCommande '{command_word}' non reconnue. Entrez 'help' pour voir la liste des commandes disponibles.\n")
-        # If the command is recognized, execute it
         if command_word == "go" :
             for pnj in self.pnj:
                 pnj.move()
-                command = self.commands[command_word]
-                command.action(self, list_of_words, command.number_of_parameters)
+        if command_word not in self.commands.keys():
+            print(f"\nCommande '{command_word}' non reconnue. Entrez 'help' pour voir la liste des commandes disponibles.\n")
+        # If the command is recognized, execute it
         
         else:
             command = self.commands[command_word]

@@ -161,7 +161,13 @@ class Actions:
         bool: True si la commande est exécutée avec succès, False sinon.
     """
     # Vérifier si l'historique des salles est vide ou contient qu'une seule salle
-        if len(game.player.history) <= 1:  # Si l'historique contient 1 ou moins de salles, le joueur est déjà à son point de départ
+        if len(game.player.history) == 0 :
+            game.player.current_room = game.player.hall
+            print(game.player.current_room.get_long_description())
+            return False
+        
+        if len(game.player.history) == 1:  # Si l'historique contient 1 ou moins de salles, le joueur est déjà à son point de départ
+            game.player.history.pop()
             game.player.current_room = game.player.hall
             print(game.player.current_room.get_long_description())
             return False
@@ -248,5 +254,5 @@ class Actions:
             return False
         
         pnj = list_of_words[1]
-        if pnj in game.player.current_room.character.name :
-            return game.playee.current_room.character.get_msg()
+        if pnj in game.player.current_room.character.keys() :
+            return game.player.current_room.character[pnj].get_msg()

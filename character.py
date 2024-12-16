@@ -37,4 +37,4 @@ class Character():
         # Retirer et retourner le premier message, puis le remettre à la fin pour un comportement cyclique
         message = self.msg.pop(0)
         self.msg.append(message)
-        return message
+        print(message)
