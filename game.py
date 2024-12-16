@@ -6,7 +6,6 @@ from room import Room
 from player import Player
 from command import Command
 from actions import Actions
-from items import sword, clé
 from character import Character
 from items import Item
 

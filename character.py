@@ -1,6 +1,6 @@
 import random
 from room import Room
-from items import sword, clé
+
 
 class Character():
 
