@@ -6,9 +6,9 @@ from room import Room
 from player import Player
 from command import Command
 from actions import Actions
-from character import Character
 from items import Item
 
+DEBUG = False
 
 class Game:
 
@@ -21,7 +21,7 @@ class Game:
         self.pnj = []
     # Setup the game
     def setup(self):
-
+        from character import Character
         # Setup commands
 
         help = Command("help", " : Afficher cette aide", Actions.help, 0)

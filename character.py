@@ -1,6 +1,6 @@
 import random
 from room import Room
-
+from game import DEBUG
 
 class Character():
 
@@ -19,15 +19,18 @@ class Character():
         if random.choice([True, False]):
             new_direction = random.choice(l)
             if self.current_room.exits[new_direction] == None :
-                print("Le pnj est en face d'une porte donc ne bouge pas de salle")
+                if DEBUG :
+                    print("Le pnj est en face d'une porte donc ne bouge pas de salle")
                 self.current_room = self.current_room
                 return False
             else :
                 next_room = self.current_room.exits[new_direction]
                 self.current_room = next_room
-                print("Le pnj a changé de salle")
+                if DEBUG :
+                    print("Le pnj a changé de salle")
                 return True
-        print("Le pnj ne bouge pas")
+        if DEBUG :
+            print("Le pnj ne bouge pas")
         return False
     
     def get_msg(self):
