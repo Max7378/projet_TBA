@@ -238,3 +238,15 @@ class Actions:
             game.player.current_room.inventory.add(item_obj)
             del game.player.inventory[item]
             print(f"Vous avez laché {item}.")
+
+    def talk(game, list_of_words, number_of_parameters):
+        l = len(list_of_words)
+        # If the number of parameters is incorrect, print an error message and return False.
+        if l != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+        
+        pnj = list_of_words[1]
+        if pnj in game.player.current_room.character.name :
+            return game.playee.current_room.character.get_msg()

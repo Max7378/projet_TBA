@@ -18,6 +18,7 @@ class Game:
         self.rooms = []
         self.commands = {}
         self.player = None
+        self.pnj = []
     # Setup the game
     def setup(self):
 
@@ -116,7 +117,8 @@ class Game:
        
         # PNJ dans les salles
 
-        ascenseur.character["trader"] = Character("trader", "test", ascenseur, 'Bonjour')
+        ascenseur.character["trader"] = Character("trader", "test", ascenseur, ["Bonjour","J'aime l'argent"])
+        self.pnj.append(ascenseur.character["trader"])
 
         
         
@@ -134,6 +136,7 @@ class Game:
             # Get the command from the player
             self.process_command(input("> "))
         return None
+   
 
     # Process the command entered by the player
     def process_command(self, command_string) -> None:
@@ -147,9 +150,16 @@ class Game:
         if command_word not in self.commands.keys():
             print(f"\nCommande '{command_word}' non reconnue. Entrez 'help' pour voir la liste des commandes disponibles.\n")
         # If the command is recognized, execute it
+        if command_word == "go" :
+            for pnj in self.pnj:
+                pnj.move()
+                command = self.commands[command_word]
+                command.action(self, list_of_words, command.number_of_parameters)
+        
         else:
             command = self.commands[command_word]
             command.action(self, list_of_words, command.number_of_parameters)
+        
 
     # Print the welcome message
     def print_welcome(self):
@@ -162,7 +172,6 @@ class Game:
 def main():
     # Create a game object and play the game
     Game().play()
-    
 
 if __name__ == "__main__":
     main()

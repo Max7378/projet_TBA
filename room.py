@@ -37,6 +37,10 @@ class Room:
     def get_inventory(self):
 
        if not self.inventory :
+             if not self.character :
+                 return "La pièce est vide"
+
+       if not self.inventory :
             return ''.join(f"    - {str(character)}\n" for character in self.character.values())
             
        if self.inventory :
