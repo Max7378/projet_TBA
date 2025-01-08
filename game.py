@@ -8,7 +8,7 @@ from command import Command
 from actions import Actions
 from items import Item
 
-DEBUG = False
+DEBUG = True
 
 class Game:
 
@@ -100,13 +100,13 @@ class Game:
 
 
         couloir1.exits = {"N" : couloirhaut1, "E" : couloirdroit1, "S" : couloirbas1, "O" : couloirgauche1}
-        couloirgauche1.exits = {"N" : bureau1, "E" : couloir1, "S" : bureau3, "U" : couloirgauche2}
-        couloirbas1.exits = {"N" : couloir1, "E" : bureau4, "U" : couloirbas2, "O" : bureau3}
+        couloirgauche1.exits = {"N" : bureau1, "E" : couloir1, "S" : bureau3, "U" : couloirgauche2, "O" : None}
+        couloirbas1.exits = {"N" : couloir1, "E" : bureau4, "U" : couloirbas2, "O" : bureau3, "S" : None}
         couloirdroit1.exits = {"N" : bureau2, "U" : couloirdroit2, "S" : bureau4, "O" : couloir1}
-        couloirhaut1.exits = {"U" : couloirhaut2, "E" : bureau2, "S" : couloir1, "O" : bureau1}
+        couloirhaut1.exits = {"U" : couloirhaut2, "E" : bureau2, "S" : couloir1, "O" : bureau1, "N" : None}
        
         couloir2.exits = {"N" : couloirhaut2, "E" : couloirdroit2, "S" : couloirbas2, "O" : couloirgauche2}
-        couloirgauche2.exits = {"N" : bureau5, "E" : couloir2, "S" : bureau7, "D" : couloirgauche1}
+        couloirgauche2.exits = {"N" : bureau5, "E" : couloir2, "S" : bureau7, "D" : couloirgauche1, "O" : None}
         couloirbas2.exits = {"N" : couloir2, "E" : bureau8, "D" : couloirbas1, "O" : bureau7}
         couloirdroit2.exits = {"N" : bureau6, "D" : couloirdroit1, "S" : bureau8, "O" : couloir2}
         couloirhaut2.exits = {"D" : couloirhaut1, "E" : bureau6, "S" : couloir2, "O" : bureau5}
@@ -119,9 +119,7 @@ class Game:
         # PNJ dans les salles
 
         ascenseur.character["trader"] = Character("trader", "test", ascenseur, ["Bonjour","J'aime l'argent"])
-        self.pnj.append(ascenseur.character["trader"])
-
-        
+        couloirbas1.character["PDG"] = Character("PDG", "Il fait peur", couloirbas1, ["Au travail"])
         
         # Setup player and starting room
 
@@ -149,8 +147,9 @@ class Game:
             return
         # If the command is not recognized, print an error message
         if command_word == "go" :
-            for pnj in self.pnj:
-                pnj.move()
+            for room in self.rooms :
+                for pnj in list(room.character.values()) :
+                    pnj.move()
         if command_word not in self.commands.keys():
             print(f"\nCommande '{command_word}' non reconnue. Entrez 'help' pour voir la liste des commandes disponibles.\n")
         # If the command is recognized, execute it

@@ -2,6 +2,7 @@ import random
 from room import Room
 from game import DEBUG
 
+
 class Character():
 
     # Define the constructor.
@@ -20,17 +21,20 @@ class Character():
             new_direction = random.choice(l)
             if self.current_room.exits[new_direction] == None :
                 if DEBUG :
-                    print("Le pnj est en face d'une porte donc ne bouge pas de salle")
+                    print(self.name + " est en face d'une porte donc ne bouge pas de salle")
                 self.current_room = self.current_room
                 return False
             else :
                 next_room = self.current_room.exits[new_direction]
+                del self.current_room.character[self.name]
                 self.current_room = next_room
                 if DEBUG :
-                    print("Le pnj a changé de salle")
+                    print( self.name + " est dans" + next_room.name)
+                self.current_room.character[self.name] = Character(self.name, self.description, self.current_room, self.msg)
                 return True
         if DEBUG :
-            print("Le pnj ne bouge pas")
+            print(self.name + " ne bouge pas")
+            print("test")
         return False
     
     def get_msg(self):
