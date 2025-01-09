@@ -59,8 +59,8 @@ class Game:
         self.rooms.append(couloirgauche1)
         couloirhaut1 = Room("dans le couloir Sud du 52ème étage", "")
         self.rooms.append(couloirhaut1)
-        
-        
+
+
         bureau1 = Room("dans le bureau de gestion.", "Les stratégies d'entreprise sont décidées ici.")
         self.rooms.append(bureau1)
         bureau2 = Room("dans le bureau de finance.", "L'argent de l'entreprise est géré ici.")
@@ -70,7 +70,7 @@ class Game:
         bureau4 = Room("dans le bureau de trading.", "Les traders travaillent ici.")
         self.rooms.append(bureau4)
 
-        
+
         bureau5 = Room("dans le placard à balais", "")
         self.rooms.append(bureau5)
         bureau6 = Room("dans la salle de repos.", "Les employés viennent se détendre ici")
@@ -79,8 +79,8 @@ class Game:
         self.rooms.append(bureau7)
         bureau8 = Room("dans la salle des machines", "Tous les serveurs sont entreposés ici.")
         self.rooms.append(bureau8)
-        
-        
+
+
         couloir2 = Room("à l'intersection des couloirs", "dans à l'intersection 53ème étage")
         self.rooms.append(couloir2)
         couloirdroit2 = Room("dans le couloir Est du 53ème étage", "")
@@ -95,7 +95,7 @@ class Game:
         # Create exits for rooms
 
         hall.exits = {"N" : ascenseur, "E" : None, "S" : None, "O" : None}
-        
+
         ascenseur.exits = {"N" : couloirbas1, "E" : None, "S" : None, "O" : None}
 
 
@@ -104,23 +104,23 @@ class Game:
         couloirbas1.exits = {"N" : couloir1, "E" : bureau4, "U" : couloirbas2, "O" : bureau3, "S" : None}
         couloirdroit1.exits = {"N" : bureau2, "U" : couloirdroit2, "S" : bureau4, "O" : couloir1}
         couloirhaut1.exits = {"U" : couloirhaut2, "E" : bureau2, "S" : couloir1, "O" : bureau1, "N" : None}
-       
+
         couloir2.exits = {"N" : couloirhaut2, "E" : couloirdroit2, "S" : couloirbas2, "O" : couloirgauche2}
         couloirgauche2.exits = {"N" : bureau5, "E" : couloir2, "S" : bureau7, "D" : couloirgauche1, "O" : None}
         couloirbas2.exits = {"N" : couloir2, "E" : bureau8, "D" : couloirbas1, "O" : bureau7}
         couloirdroit2.exits = {"N" : bureau6, "D" : couloirdroit1, "S" : bureau8, "O" : couloir2}
         couloirhaut2.exits = {"D" : couloirhaut1, "E" : bureau6, "S" : couloir2, "O" : bureau5}
 
-       
+
        # Objets
         ascenseur.inventory.add(Item("clé", "test", "0.2"))
-       
-       
+
+
         # PNJ dans les salles
 
         ascenseur.character["trader"] = Character("trader", "test", ascenseur, ["Bonjour","J'aime l'argent"])
         couloirbas1.character["PDG"] = Character("PDG", "Il fait peur", couloirbas1, ["Au travail"])
-        
+
         # Setup player and starting room
 
         self.player = Player(input("\nEntrez votre nom: "), hall)
@@ -157,7 +157,7 @@ class Game:
         else:
             command = self.commands[command_word]
             command.action(self, list_of_words, command.number_of_parameters)
-        
+
 
     # Print the welcome message
     def print_welcome(self):
@@ -165,7 +165,7 @@ class Game:
         print("Entrez 'help' si vous avez besoin d'aide.")
         #
         print(self.player.current_room.get_long_description())
-    
+
 
 def main():
     # Create a game object and play the game
