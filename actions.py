@@ -2,6 +2,9 @@
  Module actions: contient les fonctions pour exécuter les commandes du jeu.
 """
 
+import tkinter as tk
+from tkinter import PhotoImage
+
 
 # Messages d'erreur pour les commandes avec paramètres incorrects.
 MSG0 = "\nLa commande '{command_word}' ne prend pas de paramètre.\n"
@@ -27,18 +30,20 @@ class Actions:
             return False
 
         directions = {
-            "NORD": "N", "N": "N", "nord": "N", "n": "N", "Nord": "N",
+            "NORD": "N", "nord": "N", "n": "N", "Nord": "N", "N" : "N",
             "EST": "E", "E": "E", "est": "E", "e": "E", "Est": "E",
             "SUD": "S", "S": "S", "sud": "S", "s": "S", "Sud": "S",
             "OUEST": "O", "O": "O", "ouest": "O", "o": "O", "Ouest": "O",
+            "UP" : "U", "U" : "U", "up": "U", "u": "U", "Up": "U",
+            "DOWN" : "D", "d" : "D", "Down" : "D", "D" : "D"
         }
 
         direction = directions.get(list_of_words[1], None)
-        if direction:
+        if direction :
             joueur.move(direction)
             return True
-
         print("Direction non valide.")
+        print("test")
         return False
 
     @staticmethod
@@ -80,7 +85,7 @@ class Actions:
         joueur = game.player
         if len(list_of_words) != number_of_parameters + 1:
             command_word = list_of_words[0]
-            print(f"Usage incorrect de la commande '{command_word}'")
+            print(MSG0.format(command_word=command_word))
             return False
 
         if not joueur.history:
@@ -127,7 +132,7 @@ class Actions:
         """
         if len(list_of_words) != number_of_parameters + 1:
             command_word = list_of_words[0]
-            print(MSG0.format(command_word=command_word))
+            print(MSG1.format(command_word=command_word))
             return False
 
         item_name = list_of_words[1]
@@ -150,7 +155,7 @@ class Actions:
         """
         if len(list_of_words) != number_of_parameters + 1:
             command_word = list_of_words[0]
-            print(MSG0.format(command_word=command_word))
+            print(MSG1.format(command_word=command_word))
             return False
 
         item_name = list_of_words[1]
@@ -172,7 +177,7 @@ class Actions:
         """
         if len(list_of_words) != number_of_parameters + 1:
             command_word = list_of_words[0]
-            print(MSG0.format(command_word=command_word))
+            print(MSG1.format(command_word=command_word))
             return False  # Il semble que cela soit fait pour gérer une erreur de syntaxe.
 
         npc_name = list_of_words[1]
@@ -185,3 +190,50 @@ class Actions:
 
         print("Personnage non trouvé dans la salle.")
         return False  # Si le personnage n'est pas trouvé, retourne False pour l'échec.
+
+    @staticmethod
+    def enter(game, list_of_words, number_of_parameters):
+        """Permet d'entrer sur l'ordinateur"""
+
+        if len(list_of_words) != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG1.format(command_word=command_word))
+            return False  # Il semble que cela soit fait pour gérer une erreur de syntaxe.
+
+        a = list_of_words[1]
+        if a == "Ordinateur" :
+            # Crée la fenêtre principale
+            root = tk.Tk()
+            root.title("Relevés Bancaires 2021-2024")
+            # Définir la taille de la fenêtre
+            root.geometry("700x600")
+
+# Charger l'image
+            image_path = "bl.png"  # Remplace par le chemin de ton image
+            image = PhotoImage(file=image_path)
+
+# Redimensionner l'image pour s'ajuster à la taille de la fenêtre (600x400)
+# Utilisation de la méthode zoom de PhotoImage pour ajuster l'image à la fenêtre
+            resized_image = image.subsample(int(image.width() / 600), int(image.height() / 400))
+
+# Créer un label pour afficher l'image redimensionnée
+            label_image = tk.Label(root, image=resized_image)
+            label_image.pack()
+
+# Afficher les relevés bancaires
+            text = """
+            Relevés Bancaires:
+            2021 : 453 millions $
+            2022 : 729 millions $
+            2023 : 1547 millions $
+            2024 : 2549 millions $
+            """
+
+# Ajouter un label pour afficher les informations bancaires
+            label_text = tk.Label(root, text=text, font=("Helvetica", 14), bg="lightgrey")
+            label_text.pack()
+
+# Lancer l'interface graphique
+            root.mainloop()
+            return True
+        return False

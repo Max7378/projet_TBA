@@ -13,7 +13,7 @@ class Room:
         character (dict): The characters present in the room.
     """
 
-    def __init__(self, name, description):
+    def __init__(self, name, description, locked):
         """
         Initialize the Room object with a name, description, and default attributes.
         
@@ -26,6 +26,8 @@ class Room:
         self.inventory = set()
         self.exits = {}
         self.character = {}
+        self.locked = locked
+        self.code = ""
 
     def get_exit(self, direction):
         """

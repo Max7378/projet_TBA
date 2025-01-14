@@ -29,6 +29,7 @@ class Player:
         self.current_room = hall
         self.hall = hall
         self.last_room = None
+        self.win = False
 
     def move(self, direction):
         """
@@ -46,6 +47,28 @@ class Player:
             if next_room is None:
                 print("\nAucune porte dans cette direction !\n")
                 return False
+
+            if next_room.locked is True :
+                print("\nLa porte est verouillée.")
+                if next_room.name == "le bureau de trading" :
+                    print("Entrez le code :")
+                    code = input("Code : ")
+                    if code == next_room.code:
+                        next_room.locked = False
+                        print("Le code est correct ! La porte est maintenant ouverte.")
+                        return True
+                    print("Code incorrect. La salle reste verrouillée.")
+                    return False
+
+                if next_room.name == "le bureau du patron" :
+                    for i in self.inventory :
+                        if i == "Clé" :
+                            next_room.locked = False
+                            print("Clac ! La clé ouvre la porte")
+                            return True
+                    print("Vous n'avez pas encore la clé")
+                    return False
+
 
             # Save current room to history before moving
             self.history.append(self.current_room)

@@ -1,5 +1,7 @@
 # Description: Game class
-
+import tkinter as tk
+import time
+import threading
 # Import modules
 
 from room import Room
@@ -8,17 +10,17 @@ from command import Command
 from actions import Actions
 from items import Item
 
-DEBUG = True
+DEBUG = False
 
 class Game:
-
-    # Constructor
     def __init__(self):
         self.finished = False
         self.rooms = []
         self.commands = {}
         self.player = None
         self.pnj = []
+
+
     # Setup the game
     def setup(self):
         from character import Character
@@ -42,89 +44,96 @@ class Game:
         self.commands["drop"] = drop
         talk = Command("talk", " : Parler à un PNJ", Actions.talk, 1)
         self.commands["talk"] = talk
+        enter = Command("enter", " : Ouvre la page de navigation de l'ordinateur", Actions.enter, 1)
+        self.commands["enter"] = enter
 
         # Setup rooms
 
-        hall=Room("le hall d'acceuil", "Prêt à commencer votre job de rêve.")
+        hall=Room("le hall d'acceuil de la tour", "Vous avez les mains moites, il ne faut surtout pas se faire repérer.", False)
         self.rooms.append(hall)
-        ascenseur=Room("l'ascenseur.", "Direction le 52ème étage.")
+        ascenseur=Room("l'ascenseur", "Vous êtes seul, silencieux. Direction le 52ème étage.", False)
         self.rooms.append(ascenseur)
-        couloir1 = Room("à l'intersection des couloirs", "")
+        couloir1 = Room("un long couloir interminable", "", False)
         self.rooms.append(couloir1)
-        couloirdroit1 = Room("dans le couloir Est du 52ème étage", "")
-        self.rooms.append(couloirdroit1)
-        couloirbas1 = Room("dans le couloir Nord du 52ème étage", "")
-        self.rooms.append(couloirbas1)
-        couloirgauche1 = Room("dans le couloir Ouest du 52ème étage", "")
-        self.rooms.append(couloirgauche1)
-        couloirhaut1 = Room("dans le couloir Sud du 52ème étage", "")
-        self.rooms.append(couloirhaut1)
+        couloir2 = Room("même couloir qui se prolonge", "", False)
+        self.rooms.append(couloir2)
 
 
-        bureau1 = Room("dans le bureau de gestion.", "Les stratégies d'entreprise sont décidées ici.")
+        bureau1 = Room("le bureau de comptabilité", "L'argent de l'entreprise est géré ici.", False)
         self.rooms.append(bureau1)
-        bureau2 = Room("dans le bureau de finance.", "L'argent de l'entreprise est géré ici.")
+        bureau2 = Room("le bureau de gestion du personnel.", "Les RH travaillent ici.", False)
         self.rooms.append(bureau2)
-        bureau3 = Room("dans le bureau de gestion du personnel.", "Les RH travaillent ici.")
+        bureau3 = Room("le bureau de trading", "L'ambiance est électrique. Les traders crient de partout et se battent entre eux.", True)
         self.rooms.append(bureau3)
-        bureau4 = Room("dans le bureau de trading.", "Les traders travaillent ici.")
+        bureau4 = Room("le bureau des managers", "Les managers discutent de la nouvelle tendance à la mode, le management Lean.", False)
         self.rooms.append(bureau4)
 
 
-        bureau5 = Room("dans le placard à balais", "")
+        bureau5 = Room("le placard à balais", "La pièce est sombre et humide", False)
         self.rooms.append(bureau5)
-        bureau6 = Room("dans la salle de repos.", "Les employés viennent se détendre ici")
+        bureau6 = Room("le bureau du patron", "Tout est bien ordonné à sa place. Faites vite, il pourrait revenir à tout instant.", True)
         self.rooms.append(bureau6)
-        bureau7 = Room("dans le bureau de j'ai pas encore d'idée", "Idée.")
-        self.rooms.append(bureau7)
-        bureau8 = Room("dans la salle des machines", "Tous les serveurs sont entreposés ici.")
-        self.rooms.append(bureau8)
 
-
-        couloir2 = Room("à l'intersection des couloirs", "dans à l'intersection 53ème étage")
-        self.rooms.append(couloir2)
-        couloirdroit2 = Room("dans le couloir Est du 53ème étage", "")
-        self.rooms.append(couloirdroit2)
-        couloirbas2 = Room("dans le couloir Nord du 53ème étage", "")
-        self.rooms.append(couloirbas2)
-        couloirgauche2 = Room("dans le couloir Ouest du 53ème étage", "")
-        self.rooms.append(couloirgauche2)
-        couloirhaut2 = Room("dans le couloir Sud du 53ème étage", "")
-        self.rooms.append(couloirhaut2)
 
         # Create exits for rooms
 
-        hall.exits = {"N" : ascenseur, "E" : None, "S" : None, "O" : None}
+        hall.exits = {"N" : ascenseur}
 
-        ascenseur.exits = {"N" : couloirbas1, "E" : None, "S" : None, "O" : None}
+        ascenseur.exits = {"N" : couloir1}
 
 
-        couloir1.exits = {"N" : couloirhaut1, "E" : couloirdroit1, "S" : couloirbas1, "O" : couloirgauche1}
-        couloirgauche1.exits = {"N" : bureau1, "E" : couloir1, "S" : bureau3, "U" : couloirgauche2, "O" : None}
-        couloirbas1.exits = {"N" : couloir1, "E" : bureau4, "U" : couloirbas2, "O" : bureau3, "S" : None}
-        couloirdroit1.exits = {"N" : bureau2, "U" : couloirdroit2, "S" : bureau4, "O" : couloir1}
-        couloirhaut1.exits = {"U" : couloirhaut2, "E" : bureau2, "S" : couloir1, "O" : bureau1, "N" : None}
-
-        couloir2.exits = {"N" : couloirhaut2, "E" : couloirdroit2, "S" : couloirbas2, "O" : couloirgauche2}
-        couloirgauche2.exits = {"N" : bureau5, "E" : couloir2, "S" : bureau7, "D" : couloirgauche1, "O" : None}
-        couloirbas2.exits = {"N" : couloir2, "E" : bureau8, "D" : couloirbas1, "O" : bureau7}
-        couloirdroit2.exits = {"N" : bureau6, "D" : couloirdroit1, "S" : bureau8, "O" : couloir2}
-        couloirhaut2.exits = {"D" : couloirhaut1, "E" : bureau6, "S" : couloir2, "O" : bureau5}
+        couloir1.exits = {"N" : couloir2, "E" : bureau1, "S" : ascenseur, "O" : bureau2}
+        bureau1.exits = {"N" : bureau3, "E" : None, "S" : None, "O" : couloir1, "D": bureau5}
+        bureau2.exits = {"N" : bureau4, "E" : couloir1, "O" : None, "S" : None, "U" : bureau6}
+        bureau3.exits = {"N" : None, "U" : None, "S" : bureau1, "O" : couloir2, "D" : bureau5}
+        bureau4.exits = {"U" : bureau6, "E" : couloir2, "S" : bureau2, "O" : None, "N" : None}
+        bureau5.exits = {"U" : bureau1, "E" : None, "S" : None, "O" : None, "N" : None}
+        bureau6.exits = {"U" : None, "E" : None, "S" : None, "O" : None, "N" : None, "D" : bureau2}
+        couloir2.exits = {"N" : None, "E" : bureau3, "S" : couloir1, "O" : bureau4}
+        
+        bureau3.code = "2549"
 
 
        # Objets
-        ascenseur.inventory.add(Item("clé", "test", "0.2"))
-
+        bureau3.inventory.add(Item("Clé", "Une clé qui scintille et qui attire votre attention", "0.2"))
+        bureau1.inventory.add(Item("Ordinateur", "Il est déverouillé, étrange. Le fichier de comptabilité de cette année est affiché."
+        " enter Ordinateur permet d'afficher la fenêtre", ""))
+        bureau6.inventory.add(Item("Documents", "Les fameux fichiers qui prouvent l'assassinat de Ben Fisher","0,6"))
+        bureau4.inventory.add(Item("Machine", "Du café bien chaud", ""))
+        bureau5.inventory.add(Item("Balai", "Un simple balai",""))
 
         # PNJ dans les salles
 
-        ascenseur.character["trader"] = Character("trader", "test", ascenseur, ["Bonjour","J'aime l'argent"])
-        couloirbas1.character["PDG"] = Character("PDG", "Il fait peur", couloirbas1, ["Au travail"])
-
+        hall.character["Hôtesse"] = Character("Hôtesse", "Une femme au guichet d'acceuil", hall, ["Bienvenue chez BlackStone"])
+        couloir1.character["Traders"] = Character("Traders", "Deux hommes bien habillés et l'air soucieux", couloir1, ["J'ai entendu dire qu'un journaliste voulait mettre son nez dans nos affaires.",
+        "Le comptable a ecnore changé les codes"])
+        bureau3.character["RH"] = Character("RH", "Une femme à l'air sérieux et sévère", bureau3, ["Il a fait perdre 5 milliards à l'entreprise, j'étais obligée de le virer."])
+        couloir2.character["Comptable"] = Character("Comptable", "Un homme à l'air banal", couloir2, ["Je vais "
+        "me chercher un café", "Je suis satisfait, l'entreprise a enregistré des performances record cette année", 
+        "Ah les traders, le gain, ils n'ont que ce mot à la bouche"])
         # Setup player and starting room
 
         self.player = Player(input("\nEntrez votre nom: "), hall)
         self.player.current_room = hall
+
+
+    def win(self):
+        """ Vérifie si le joueur a récupéré les documents et commence le timer """
+        for i in self.player.inventory:
+            if i == "Documents" :
+                print("Vous avez récupéré les Documents. Échappez-vous du bâtiment avant qu'il ne soit trop tard.")
+                if self.player.current_room.name == "le hall d'acceuil":
+                    print("Vous avez mené votre infiltration avec succès. Vous vous êtes échappé. Un taxi vient vous récuperer."
+                    "Le PDG de BlackStone démissionne quelques jours après la publication de l'article. La justice a un prix.")
+                    self.finished = True
+
+    def loose(self):
+        for i in self.player.inventory:
+            if i == "Documents" :
+                if self.player.current_room.name == "le bureau de comptabilité":
+                    print("Les caméras de surveillance vous voient avec les documents dans la main."
+                    "La sécurité se jette sur vous. Vous avez perdu")
+                    self.finished = True
 
     # Play the game
     def play(self):
@@ -134,7 +143,10 @@ class Game:
         while not self.finished:
             # Get the command from the player
             self.process_command(input("> "))
+            self.win()
+            self.loose()
         return None
+
    
 
     # Process the command entered by the player
@@ -161,15 +173,20 @@ class Game:
 
     # Print the welcome message
     def print_welcome(self):
-        print(f"\nBienvenue {self.player.name} dans la tour Allianz pour votre premier jour.")
+        print(f"\nDISCLAIMER : Toute ressemblance avec des faits réels ou "
+      "avec des personnes existantes ou ayant existé serait purement fortuite."
+      f"\nÉlise Lucet : Bon {self.player.name}, on a absolument besoin des documents "
+      "qui prouvent que Ben Fisher a été assassiné par BlackStone suite à son "
+      "investigation sur les puits de pétrole au Groënland.")
         print("Entrez 'help' si vous avez besoin d'aide.")
+
         #
         print(self.player.current_room.get_long_description())
 
 
 def main():
-    # Create a game object and play the game
-    Game().play()
+    game = Game()  # Passer root à la classe Game
+    game.play()  # Commencer le jeu
 
 if __name__ == "__main__":
     main()
