@@ -43,7 +43,6 @@ class Actions:
             joueur.move(direction)
             return True
         print("Direction non valide.")
-        print("test")
         return False
 
     @staticmethod
@@ -137,16 +136,24 @@ class Actions:
 
         item_name = list_of_words[1]
         room_inventory = game.player.current_room.inventory
+        a = 0
+        objet_trouve = False
 
         for item in room_inventory:
+            a += item.weight
             if item_name == item.name:
-                game.player.inventory[item.name] = item
-                room_inventory.remove(item)
-                print(f"Vous avez pris {item.name}.")
-                return True
-
-        print("Objet non trouvé.")
-        return False
+                objet_trouve = True
+                if a < game.player.max_weight:
+                    game.player.inventory[item.name] = item
+                    room_inventory.remove(item)
+                    print(f"Vous avez pris {item.name}.")
+                    return True
+                print("Objet trop lourd. Vous n'avez pas besoin de le transporter.")
+                return False
+        if not objet_trouve :
+            print("Objet non trouvé.")
+            return False
+        return None
 
     @staticmethod
     def drop(game, list_of_words, number_of_parameters):
@@ -199,7 +206,9 @@ class Actions:
             command_word = list_of_words[0]
             print(MSG1.format(command_word=command_word))
             return False  # Il semble que cela soit fait pour gérer une erreur de syntaxe.
-
+        b = game.player
+        if b == 1 :
+            print("erreur")
         a = list_of_words[1]
         if a == "Ordinateur" :
             # Crée la fenêtre principale

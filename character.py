@@ -1,7 +1,7 @@
 "Definition de la classe Character"
 
 import random
-from game import DEBUG
+DEBUG = False
 
 
 

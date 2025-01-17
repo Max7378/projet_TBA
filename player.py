@@ -30,7 +30,9 @@ class Player:
         self.hall = hall
         self.last_room = None
         self.win = False
+        self.max_weight = 10
 
+# pylint: disable=too-many-return-statements
     def move(self, direction):
         """
         Moves the player to a different room based on the given direction.
